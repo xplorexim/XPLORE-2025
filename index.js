@@ -36,16 +36,16 @@ app.post('/submit', async (req, res) => {
     const mailOptions = {
         from: {
             name: "Ishan Roy",
-            address: "trickster10ishan@gmail.com"
+            address: "xplore@xim.edu.in"
         },
-        to: "ishanroy3118107@gmail.com",
+        to: "xplore@xim.edu.in",
         subject: "Sent from XPLORE website",
         text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`,
     };
     const confirmationMail = {
         from: {
             name: "XPLORE XIM",
-            address: "trickster10ishan@gmail.com"
+            address: "xplore@xim.edu.in"
         },
         to: req.body.email,
         subject: "XPLORE feedback received",
