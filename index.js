@@ -35,7 +35,7 @@ app.post('/submit', async (req, res) => {
 
     const mailOptions = {
         from: {
-            name: "Ishan Roy",
+            name: "XPLORE",
             address: "xplore@xim.edu.in"
         },
         to: "xplore@xim.edu.in",
