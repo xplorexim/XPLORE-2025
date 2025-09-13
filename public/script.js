@@ -123,7 +123,7 @@ function renderEvents(type) {
             <h3>${event.title}</h3>
             <div class="date">${formattedDate}</div>
             <p>${event.description}</p>
-            <a href="#" class="register-btn">${event.type === 'upcoming' ? 'Register Now' : 'View Details'}</a>
+            <a href="https://www.linkedin.com/in/xplore-the-coding-and-computing-society-bb8256310/" target="_blank" class="register-btn">${event.type === 'upcoming' ? 'Register Now' : 'View Details'}</a>
         `;
 
         eventsContent.appendChild(eventCard);
