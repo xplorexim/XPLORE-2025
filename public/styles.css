@@ -467,7 +467,13 @@ body {
         margin-bottom: 1.2rem;
     }
 }
-
+.cta-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
 .cta-button {
     display: inline-block;
     padding: 1rem 2rem;
@@ -506,22 +512,44 @@ body {
     transform: scaleX(1);
     transform-origin: left;
 }
-
-/* About Section */
-.about {
-    padding: 5rem 0;
-    background-color: transparent;    
+.leaderboard-btn {
+    display: inline-block;
     position: relative;
+    overflow: hidden;
+    z-index: 1;
+    font-size: 1.35rem;
+    color: rgb(0, 205, 0);
+    text-decoration: none;
+    border: 1px solid rgb(0, 205, 0);
+    border-radius: 50px;
+    padding: 0.8rem 1.6rem;
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.about h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--secondary-color);
-    font-size: 3.5rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    text-shadow: 0 0 10px var(--secondary-color);
+.leaderboard-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgb(0, 205, 0), rgb(0, 205, 0)); 
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s ease;
+    z-index: -1;
+}
+
+.leaderboard-btn:hover {
+    color: black; 
+    transform: scale(1.05);
+    box-shadow: 0 0 15px black, 0 0 30px black;
+}
+
+.leaderboard-btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 @media screen and (max-width: 992px) {
