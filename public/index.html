@@ -3,183 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Xplore - Coding Club</title>
+    <title>Xplore - The Coding & Computing Society</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Background -->
     <div class="video-background-full">
         <video autoplay loop muted playsinline>
             <source src="./images/background.mp4" type="video/mp4">
         </video>
+        <div class="overlay"></div>
     </div>
-    <div class="custom-cursor site-wide">
-        <div class="pointer"></div>
-    </div>
+
+    <!-- Navigation -->
     <nav class="navbar">
-        <div class="logo">
-            <img src="./images/xplorelogo.png" alt="Xplore Logo" />
-        </div>
-        <div class="container" id="nav-container">
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#events">Events</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <img src="./images/xplorelogo.png" alt="Xplore Logo" />
+                <span class="logo-text">XPLORE</span>
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#events" class="nav-link">Events</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 id="hero-title">Welcome to Xplore</h1>
-                <p>Where Innovation Meets Code</p>
-                <div class="cta-buttons">
-                    <a href="#contact" class="cta-button">Join Now</a>
-                    <a href="https://xplore-codeup-friday-leaderboard.vercel.app/" class="leaderboard-btn">XCUF Leaderboard</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#events" class="mobile-link">Events</a>
+        <a href="#team" class="mobile-link">Team</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+    </div>
 
-    <!-- About Section -->
-    <section id="about" class="about" style="background-color: rgba(0, 0, 0, 0.3);">
-        <div class="container">
-            <h2 style="text-shadow: none;">Our Mission</h2>
-            <div class="mission-content">
-                <div class="mission-text">
-                    <h3>Empowering Future Developers</h3>
-                    <p>At Xplore, we're dedicated to creating a vibrant community of tech enthusiasts and future developers. Our mission is to bridge the gap between theoretical knowledge and practical application in the world of technology.</p>
-                </div>
-                <div class="mission-photo">
-                    <img src="./images/team.jpg" alt="A diverse team of developers collaborating around a laptop.">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Events Section -->
-    <section id="events" class="events" style="background-color: rgba(0, 0, 0, 0.3);">
-        <div class="container">
-            <h2>Events</h2>
-            <div class="events-tabs">
-                <button class="tab-btn active" data-filter="all">All Events</button>
-                <button class="tab-btn" data-filter="upcoming">Upcoming Events</button>
-                <button class="tab-btn" data-filter="past">Past Events</button>
-            </div>
-            <div class="events-content">
-                <!-- Events will be dynamically rendered here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="team" style="background-color: rgba(0, 0, 0, 0.3);">
-        <div class="container">
-            <h2 style="text-shadow: none;">Our Team</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <img src="./images/colin.jpg" alt="Coordinator">
-                    <h3>Colin Michael D Rozario</h3>
-                    <p class="role">Coordinator</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <img src="./images/koyena.jpg" alt="Deputy Coordinator">
-                    <h3>Koyena Sutradhar</h3>
-                    <p class="role">Deputy Coordinator</p>
-                    <div class="social-links">
-                        <a href="https://github.com/Koyena06" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/koyena-sutradhar-908158308?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <img src="./images/ishan.jpg" alt="Technical Lead">
-                    <h3>Ishan Roy</h3>
-                    <p class="role">Technical Lead</p>
-                    <div class="social-links">
-                        <a href="https://github.com/RADXIshan" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/ishanroy-radx/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <img src="./images/jessica.jpg" alt="Events Lead">
-                    <h3>Jessica Maria Ekka</h3>
-                    <p class="role">Events Lead</p>
-                    <div class="social-links">
-                        <a href="https://github.com/Jessica-jpg-hash" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/jessica-ekka-485a6b305/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <img src="./images/shrabani.jpg" alt="Marketing Lead">
-                    <h3>Shrabani Mallick</h3>
-                    <p class="role">Marketing Lead</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/shrabani-mallick-4a15652b5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <img src="./images/biswanath.jpg" alt="Treasurer">
-                    <h3>Biswanath Pradhan</h3>
-                    <p class="role">Treasurer</p>
-                    <div class="social-links">
-                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/biswanath-pradhan-030836351?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-label">EST. 2025</div>
+                    <h1 class="hero-title">
+                        <span class="line">WHERE</span>
+                        <span class="line">INNOVATION</span>
+                        <span class="line">MEETS <span class="highlight">CODE</span></span>
+                    </h1>
+                    <p class="hero-subtitle">The Official Coding & Computing Society of XIM University</p>
+                    <div class="cta-wrapper">
+                        <a href="#contact" class="primary-btn">
+                            <span>Join Community</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://xplore-codeup-friday-leaderboard.vercel.app/" class="secondary-btn">
+                            <span>Leaderboard</span>
+                            <i class="fas fa-trophy"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="scroll-indicator">
+                <span>SCROLL</span>
+                <div class="line"></div>
+            </div>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact" style="background-color: rgba(0, 0, 0, 0.3);">
-        <div class="container">
-            <h2 style="text-shadow: none;">Get in Touch</h2>
-
-            <div id="form-message" class="form-message" style="display: none;"></div>
-
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>xplore@xim.edu.in</p>
+        <!-- About Section -->
+        <section id="about" class="about section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">WHO WE ARE</span>
+                    <h2 class="section-title">Empowering the <br>Next Generation</h2>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p class="lead">At Xplore, we're dedicated to creating a vibrant community of tech enthusiasts and future developers.</p>
+                        <p>Our mission is to bridge the gap between theoretical knowledge and practical application in the world of technology. We foster an environment of learning, collaboration, and innovation.</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-number" data-target="500">0</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" data-target="20">0</span>
+                                <span class="stat-label">Events</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" data-target="10">0</span>
+                                <span class="stat-label">Projects</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>XIM University , Bhubaneswar</p>
-                    </div>
-                    <div class="social-media">
-                        <a href="xplore@xim.edu.in"><i class="fas fa-envelope"></i></a>
-                        <a href="https://www.instagram.com/xplore_xim?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://github.com/xplorexim" target="_blank"><i class="fab fa-github"></i></a>
+                    <div class="about-image">
+                        <div class="image-wrapper">
+                            <img src="./images/team.jpg" alt="Xplore Team Collaboration">
+                        </div>
                     </div>
                 </div>
-                <form action="/submit" method="post" class="contact-form" id="contact-form">
-                    <input class="contact-input" type="text" name="name" placeholder="Your Name" required>
-                    <input class="contact-input" type="email" name="email" placeholder="Your Email" required>
-                    <textarea class="contact-input" name="message" placeholder="Your Message" required></textarea>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="events section-padding">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="section-tag">WHAT'S HAPPENING</span>
+                    <h2 class="section-title">Upcoming Events</h2>
+                </div>
+
+                <div class="events-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                    <button class="filter-btn" data-filter="past">Past</button>
+                </div>
+
+                <div class="events-grid">
+                    <!-- Events will be dynamically injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="team section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">THE CORE</span>
+                    <h2 class="section-title">Meet The Team</h2>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="member-image">
+                            <img src="./images/colin.jpg" alt="Colin Michael D Rozario">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3>Colin Michael D Rozario</h3>
+                            <p>Coordinator</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="member-image">
+                            <img src="./images/koyena.jpg" alt="Koyena Sutradhar">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="https://github.com/Koyena06" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/koyena-sutradhar-908158308" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3>Koyena Sutradhar</h3>
+                            <p>Deputy Coordinator</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="member-image">
+                            <img src="./images/ishan.jpg" alt="Ishan Roy">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="https://github.com/RADXIshan" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/ishanroy-radx/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3>Ishan Roy</h3>
+                            <p>Technical Lead</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="member-image">
+                            <img src="./images/jessica.jpg" alt="Jessica Maria Ekka">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="https://github.com/Jessica-jpg-hash" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/jessica-ekka-485a6b305/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3>Jessica Maria Ekka</h3>
+                            <p>Events Lead</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="member-image">
+                            <img src="./images/shrabani.jpg" alt="Shrabani Mallick">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/shrabani-mallick-4a15652b5" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3>Shrabani Mallick</h3>
+                            <p>Marketing Lead</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="member-image">
+                            <img src="./images/biswanath.jpg" alt="Biswanath Pradhan">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/biswanath-pradhan-030836351" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3>Biswanath Pradhan</h3>
+                            <p>Treasurer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section-padding">
+            <div class="container">
+                <div class="contact-wrapper">
+                    <div class="contact-info">
+                        <span class="section-tag">GET IN TOUCH</span>
+                        <h2 class="section-title">Let's Build Something<br>Amazing Together</h2>
+                        
+                        <div class="contact-details">
+                            <div class="detail-item">
+                                <div class="icon-box">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4>Email Us</h4>
+                                    <p>xplore@xim.edu.in</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="icon-box">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h4>Visit Us</h4>
+                                    <p>XIM University, Bhubaneswar</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-connect">
+                            <a href="mailto:xplore@xim.edu.in" class="social-btn"><i class="fas fa-envelope"></i></a>
+                            <a href="https://www.instagram.com/xplore_xim" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+                            <a href="https://github.com/xplorexim" target="_blank" class="social-btn"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-wrapper">
+                        <form action="/submit" method="post" class="contact-form" id="contact-form">
+                            <div class="form-group">
+                                <input type="text" name="name" id="name" required placeholder=" ">
+                                <label for="name">Your Name</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" required placeholder=" ">
+                                <label for="email">Your Email</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="message" id="message" required placeholder=" "></textarea>
+                                <label for="message">Your Message</label>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <span>Send Message</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <div class="footer">
+    <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Xplore Coding Club. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="./images/xplorelogo.png" alt="Xplore Logo" class="footer-logo-img">
+                    <h2>XPLORE</h2>
+                    <p>Where Innovation Meets Code</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#events">Events</a>
+                    <a href="#team">Team</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; <span id="year">2025</span> Xplore Coding Club. All rights reserved.</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

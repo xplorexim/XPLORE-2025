@@ -1,117 +1,260 @@
-const welcomeText = "Welcome to Xplore";
-const welcomeElement = document.querySelector('.hero-content h1');
-const titleElement = document.getElementById('hero-title');
+// Register GSAP Plugins
+gsap.registerPlugin(ScrollTrigger);
 
-let charIndex = 0;
-let typingTimeout;
-let isTyping = false;
-
-function typeWriter(onComplete) {
-    if (charIndex < welcomeText.length) {
-        welcomeElement.textContent = welcomeText.substring(0, charIndex + 1);
-        charIndex++;
-        typingTimeout = setTimeout(() => typeWriter(onComplete), 100);
-    } else {
-        isTyping = false;
-        if (typeof onComplete === 'function') {
-            onComplete(); // ✅ Typing done callback
-        }
-    }
-}
-
-function startTyping(onComplete) {
-    if (isTyping) return;
-    isTyping = true;
-    charIndex = 0;
-    clearTimeout(typingTimeout);
-    welcomeElement.textContent = '';
-    typeWriter(onComplete);
-}
-
-// On page load — type, THEN attach hover
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        startTyping(() => {
-            // ✅ Attach hover listener *after* first animation finishes
-            titleElement.addEventListener('mouseover', () => {
-                if (!isTyping) {
-                    startTyping(); // hover-triggered typing
-                }
-            });
-        });
-    }, 2000);
+// Initialize Lenis for Smooth Scrolling
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
 });
 
-// Interactive Background Elements
-function createBackgroundElements() {
-    const bgContainer = document.createElement('div');
-    bgContainer.className = 'interactive-bg';
-    document.body.appendChild(bgContainer);
-
-    for (let i = 0; i < 20; i++) {
-        const element = document.createElement('div');
-        element.className = 'bg-element';
-        element.style.left = `${Math.random() * 100}%`;
-        element.style.top = `${Math.random() * 100}%`;
-        element.style.animationDelay = `${Math.random() * 15}s`;
-        bgContainer.appendChild(element);
-    }
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
 }
 
-// Event Tabs
-const tabButtons = document.querySelectorAll('.tab-btn');
-const eventsContent = document.querySelector('.events-content');
+requestAnimationFrame(raf);
 
-// Sample event data
+// Custom Cursor
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    // Smooth follow for outline
+    cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+    }, { duration: 500, fill: "forwards" });
+});
+
+// Hover effects for cursor
+const hoverElements = document.querySelectorAll('a, button, .event-card, .team-card');
+hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursorOutline.style.backgroundColor = 'rgba(0, 255, 65, 0.1)';
+    });
+    el.addEventListener('mouseleave', () => {
+        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorOutline.style.backgroundColor = 'transparent';
+    });
+});
+
+// Mobile Menu Toggle
+const navToggle = document.querySelector('.nav-toggle');
+const mobileMenu = document.querySelector('.mobile-menu');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+navToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+    navToggle.classList.toggle('active');
+});
+
+mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        navToggle.classList.remove('active');
+    });
+});
+
+// Navbar Scroll Effect
+const navbar = document.querySelector('.navbar');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// =========================================
+// GSAP ANIMATIONS
+// =========================================
+
+// Hero Section Animations
+const heroTimeline = gsap.timeline();
+
+heroTimeline
+    .from('.hero-label', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.5,
+        ease: 'power3.out'
+    })
+    .from('.hero-title .line', {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power4.out'
+    }, '-=0.4')
+    .from('.hero-subtitle', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+    }, '-=0.6')
+    .from('.cta-wrapper', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+    }, '-=0.6')
+    .from('.scroll-indicator', {
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.inOut'
+    }, '-=0.4');
+
+// About Section Animations
+gsap.from('.about-text > *', {
+    scrollTrigger: {
+        trigger: '.about',
+        start: 'top 80%',
+    },
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: 'power3.out'
+});
+
+gsap.from('.image-wrapper', {
+    scrollTrigger: {
+        trigger: '.about',
+        start: 'top 80%',
+    },
+    scale: 0.9,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
+});
+
+// Stats Counter Animation
+const stats = document.querySelectorAll('.stat-number');
+stats.forEach(stat => {
+    const target = parseInt(stat.getAttribute('data-target'));
+    
+    ScrollTrigger.create({
+        trigger: stat,
+        start: 'top 85%',
+        onEnter: () => {
+            gsap.to(stat, {
+                innerHTML: target,
+                duration: 2,
+                snap: { innerHTML: 1 },
+                ease: 'power2.out'
+            });
+        }
+    });
+});
+
+// Events Section Animations
+gsap.from('.section-header', {
+    scrollTrigger: {
+        trigger: '#events',
+        start: 'top 80%',
+    },
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power3.out'
+});
+
+// Team Section Animations
+gsap.from('.team-card', {
+    scrollTrigger: {
+        trigger: '.team-grid',
+        start: 'top 85%',
+    },
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.1,
+    ease: 'power3.out'
+});
+
+// Contact Section Animations
+gsap.from('.contact-wrapper', {
+    scrollTrigger: {
+        trigger: '#contact',
+        start: 'top 80%',
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
+});
+
+// =========================================
+// EVENT DATA & RENDERING
+// =========================================
+const eventsContent = document.querySelector('.events-grid');
+const filterBtns = document.querySelectorAll('.filter-btn');
+
 const events = [
     {
         id: 1,
         title: "Git and Github Workshop",
         date: "2025-05-03",
-        description: "Learn the basics of Git and GitHub with our workshop!",
-        type: "past"
+        description: "Master the basics of version control with our hands-on Git & GitHub workshop.",
+        type: "past",
+        link: "#"
     },
     {
         id: 2,
         title: "ESG Hackathon",
         date: "2025-07-25",
-        description: "An event uniting SCSE and SOS students to tackle real-world ESG challenges with tech.",
-        type: "upcoming"
+        description: "Uniting students to tackle real-world ESG challenges with innovative tech solutions.",
+        type: "upcoming",
+        link: "#"
     },
     {
         id: 3,
         title: "Code Relay",
         date: "2025-09-13",
-        description: "A coding competition where participants work together to solve problems.",
-        type: "upcoming"
+        description: "A high-energy coding competition where teamwork makes the dream work.",
+        type: "upcoming",
+        link: "#"
     },
     {
         id: 4,
         title: "Blind Coding",
         date: "2024-09-13",
-        description: "A coding competition where participants code without seeing the code.",
-        type: "past"
+        description: "Test your coding muscle memory in this challenging blind coding event.",
+        type: "past",
+        link: "#"
     },
     {
         id: 5,
         title: "AI Prompting",
         date: "2024-09-13",
-        description: "A competition on how to use AI to code.",
-        type: "past"
+        description: "Explore the art of communicating with AI to generate code and content.",
+        type: "past",
+        link: "#"
     },
 ];
-// Function to render events based on type
-function renderEvents(type) {
-    eventsContent.innerHTML = ''; // Clear existing events
 
-    const filteredEvents = type === 'all' 
+function renderEvents(filter) {
+    eventsContent.innerHTML = '';
+    
+    const filteredEvents = filter === 'all' 
         ? events 
-        : events.filter(event => event.type === type);
+        : events.filter(event => event.type === filter);
 
-    filteredEvents.forEach(event => {
-        const eventCard = document.createElement('div');
-        eventCard.className = 'event-card';
-        
+    filteredEvents.forEach((event, index) => {
         const date = new Date(event.date);
         const formattedDate = date.toLocaleDateString('en-US', {
             year: 'numeric',
@@ -119,146 +262,62 @@ function renderEvents(type) {
             day: 'numeric'
         });
 
-        eventCard.innerHTML = `
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.innerHTML = `
+            <span class="event-date">${formattedDate}</span>
             <h3>${event.title}</h3>
-            <div class="date">${formattedDate}</div>
             <p>${event.description}</p>
-            <a href="https://www.linkedin.com/in/xplore-the-coding-and-computing-society-bb8256310/" target="_blank" class="register-btn">${event.type === 'upcoming' ? 'Register Now' : 'View Details'}</a>
+            <a href="${event.link}" class="event-link">
+                ${event.type === 'upcoming' ? 'Register Now' : 'View Details'}
+            </a>
         `;
-
-        eventsContent.appendChild(eventCard);
-    });
-}
-
-// Initialize events
-renderEvents('all');
-
-// Add click handlers for tabs
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Remove active class from all buttons
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked button
-        button.classList.add('active');
         
-        const filter = button.getAttribute('data-filter');
-        renderEvents(filter);
-    });
-});
+        eventsContent.appendChild(card);
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Development-related animations
-const missionContent = document.querySelector('.mission-content');
-const eventCardElements = document.querySelectorAll('.event-card');
-
-// Initialize animations when elements are in view
-const animationObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            if (entry.target.classList.contains('mission-content')) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            } else if (entry.target.classList.contains('event-card')) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateX(0)';
+        // Animate new cards with a clear "to" state
+        gsap.fromTo(card, 
+            { y: 20, opacity: 0 },
+            { 
+                y: 0, 
+                opacity: 1, 
+                duration: 0.5, 
+                delay: index * 0.1, 
+                ease: 'power3.out',
+                clearProps: 'opacity' // Ensure opacity is cleared after animation to avoid issues
             }
-        }
-    });
-}, { threshold: 0.5 });
-
-// Observe mission content and event cards
-animationObserver.observe(missionContent);
-eventCardElements.forEach(card => animationObserver.observe(card));
-
-// 3D Card Effect
-const cards = document.querySelectorAll('.event-card, .team-member, .mission-text');
-cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+        );
     });
     
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+    // Refresh ScrollTrigger to account for new DOM elements
+    ScrollTrigger.refresh();
+}
+
+// Initial Render
+renderEvents('all');
+
+// Filter Click Handlers
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderEvents(btn.getAttribute('data-filter'));
     });
 });
 
-// Dynamic Year in Footer
-const yearSpan = document.querySelector('footer p');
+// =========================================
+// FORM HANDLING
+// =========================================
+const form = document.getElementById('contact-form');
+if (form) {
+    form.addEventListener('submit', (e) => {
+        // e.preventDefault(); // Uncomment if you want to handle via AJAX
+        // Add AJAX handling here if needed
+    });
+}
+
+// Dynamic Year
+const yearSpan = document.getElementById('year');
 if (yearSpan) {
-    const currentYear = new Date().getFullYear();
-    yearSpan.textContent = yearSpan.textContent.replace('2024', currentYear);
+    yearSpan.textContent = new Date().getFullYear();
 }
-
-// Form Submission Handling
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.contact-form');
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
-    const success = urlParams.get('success');
-
-    // Show success/error message
-    if (success === 'true') {
-        showMessage('Message sent successfully! We will get back to you soon.', 'success');
-    } else if (error === 'config') {
-        showMessage('Server configuration error. Please try again later.', 'error');
-    } else if (error === 'send') {
-        showMessage('Failed to send message. Please try again later.', 'error');
-    }
-
-    function showMessage(message, type) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `form-message ${type}`;
-        messageDiv.textContent = message;
-        
-        // Insert message before the form
-        form.parentNode.insertBefore(messageDiv, form);
-        
-        // Remove message after 5 seconds
-        setTimeout(() => {
-            messageDiv.remove();
-        }, 4000);
-    }
-}); 
-
-//site wide cursor
-const siteWide = document.querySelector('.custom-cursor.site-wide');
-document.addEventListener('mouseenter', (e) => {
-    siteWide.style.display = 'block';
-});
-document.addEventListener('mouseleave', (e) => {
-    siteWide.style.display = 'none';
-});
-
-document.addEventListener('mousemove', TrackCursor);
-document.addEventListener('mousedown', () => siteWide.classList.add('active'));
-document.addEventListener('mouseup', () => siteWide.classList.remove('active'));
-
-function TrackCursor(e){
-    const width = siteWide.clientWidth;
-    const height = siteWide.clientHeight;
-    siteWide.style.transform = `translate(${e.clientX - width/2}px, ${e.clientY - height/2}px)`;
-}
-
