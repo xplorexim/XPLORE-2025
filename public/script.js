@@ -78,6 +78,51 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// Smooth Scroll for Anchor Links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            // Close mobile menu if open
+            mobileMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            
+            lenis.scrollTo(targetElement, {
+                offset: -80, // Adjust for fixed header
+                duration: 1.5,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+            });
+        }
+    });
+});
+
+// Active Link Highlighting
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+sections.forEach(section => {
+    ScrollTrigger.create({
+        trigger: section,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        onEnter: () => setActiveLink(section.id),
+        onEnterBack: () => setActiveLink(section.id)
+    });
+});
+
+function setActiveLink(sectionId) {
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
 // =========================================
 // GSAP ANIMATIONS
 // =========================================
@@ -124,9 +169,10 @@ gsap.from('.about-text > *', {
         trigger: '.about',
         start: 'top 80%',
     },
-    y: 30,
+    y: 50,
     opacity: 0,
-    duration: 0.8,
+    filter: 'blur(10px)',
+    duration: 1,
     stagger: 0.2,
     ease: 'power3.out'
 });
@@ -136,9 +182,10 @@ gsap.from('.image-wrapper', {
         trigger: '.about',
         start: 'top 80%',
     },
-    scale: 0.9,
+    scale: 0.8,
     opacity: 0,
-    duration: 1,
+    filter: 'blur(10px)',
+    duration: 1.2,
     ease: 'power3.out'
 });
 
@@ -167,9 +214,10 @@ gsap.from('.section-header', {
         trigger: '#events',
         start: 'top 80%',
     },
-    y: 30,
+    y: 50,
     opacity: 0,
-    duration: 0.8,
+    filter: 'blur(10px)',
+    duration: 1,
     ease: 'power3.out'
 });
 
@@ -179,10 +227,11 @@ gsap.from('.team-card', {
         trigger: '.team-grid',
         start: 'top 85%',
     },
-    y: 50,
+    y: 100,
     opacity: 0,
-    duration: 0.8,
-    stagger: 0.1,
+    filter: 'blur(5px)',
+    duration: 1,
+    stagger: 0.15,
     ease: 'power3.out'
 });
 
@@ -192,9 +241,10 @@ gsap.from('.contact-wrapper', {
         trigger: '#contact',
         start: 'top 80%',
     },
-    y: 50,
+    y: 100,
     opacity: 0,
-    duration: 1,
+    filter: 'blur(10px)',
+    duration: 1.2,
     ease: 'power3.out'
 });
 
